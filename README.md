@@ -1,6 +1,6 @@
 # Soundoro
 
-##Descrição
+## Descrição
 
 - Um app que tem como objetivo unir a técnica de produtividade Pomodoro com sons que aumentam o foco e concentração.
 
