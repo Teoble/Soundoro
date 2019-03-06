@@ -1,34 +1,9 @@
-# soundoro
+# Soundoro
 
-## Project setup
-```
-npm install
-```
+##Descrição
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- Um app que tem como objetivo unir a técnica de produtividade Pomodoro com sons que aumentam o foco e concentração.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Autores
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [Rafael da Silva Pereira](mailto:rafael.pereira.sjbv@gmail.com)
