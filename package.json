@@ -9,20 +9,22 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "buefy": "^0.7.3",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-plugin-unit-jest": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
+    "@vue/cli-plugin-unit-jest": "^3.5.1",
+    "@vue/cli-service": "^3.5.1",
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "jest-transform-stub": "^2.0.0",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {
@@ -71,7 +73,7 @@
       "<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules"
+      "node_modules/(?!vue-awesome|vue-quill-editor)"
     ]
   }
 }
