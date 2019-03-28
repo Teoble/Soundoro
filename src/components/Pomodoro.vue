@@ -1,8 +1,20 @@
 <template>
-    <div class="box timer-pomodoro">
-          <h2 class="title" id="timer">
+    <div class="timer-pomodoro">
+        <h2 class="title" id="timer">
             {{runTimer | prettify}}
-          </h2>
+        </h2>
+        <div v-if="time > 0">
+            <button class="button is-rounded" 
+                    :class="isPaused ? 'is-info' : 'is-link'" 
+                    @click="pomodoroToogle()">
+                        <i class="fas" :class="playClass"></i>
+                        </button>
+        </div>
+        <div class="timer-box" v-else>
+            <button class="button is-rounded" @click="setTimer(pomodoro)">Start Pomodoro</button>
+            <button class="button is-rounded" @click="setTimer(shortBreak)">Start Short Break</button>
+            <button class="button is-rounded" @click="setTimer(longBreak)">Start Long Break</button>
+        </div>
     </div>
 </template>
 
@@ -13,9 +25,10 @@ export default {
         return {
             time: null,
             timer: null,
-            pomodoro:25,
-            smallBreak:5,
-            longBreak:15
+            pomodoro:0.2,
+            shortBreak:0.1,
+            longBreak:0.05,
+            isPaused: true
         }
     },
     computed:{
@@ -24,6 +37,9 @@ export default {
             let minutes = parseInt(time)
             let seconds = Math.round((time - minutes) * 60)
             return minutes+":"+seconds
+        },
+        playClass: function(){
+            return this.isPaused ? 'fa-play' : 'fa-pause'
         }
     },
     filters: {
@@ -41,23 +57,45 @@ export default {
         }
 	},
     methods:{
-        startPomodoro:function(){
-            this.time = (this.pomodoro * 60)
+        setTimer: function(minutes){          
+            let bckRemove
+            let bckAdd
+            if(minutes == this.shortBreak || minutes == this.longBreak){
+                bckRemove = "pomodo-bck"
+                bckAdd = "break-bck"
+            }else{
+                bckRemove = "break-bck"
+                bckAdd = "pomodo-bck"
+            }
+            document.querySelector('#app').classList.remove(bckRemove);
+            document.querySelector('#app').classList.add(bckAdd);
+            this.time = (minutes * 60)
         },
-        start () {
+        start: function() {
             if (!this.timer) {
-                this.timer = setInterval( () => {
+                this.timer = setInterval( () => {                    
                     if (this.time > 0) {
-                            this.time--
+                        this.time = !this.isPaused ? --this.time : this.time
+                        document.title = `(${this.$options.filters.prettify(this.runTimer())}) - Soundoro`
                     } else {
-                            clearInterval(this.timer)
+                        this.isPaused = true;
+                        clearInterval(this.timer)
+                        this.timer = null
+                        document.title = "Soundoro"
                     }
                 }, 1000 )
             }
-        }
+        },
+        pomodoroToogle: function(){
+            if(!this.timer){
+                this.start()
+            }
+            
+            this.isPaused = !this.isPaused
+        }  
     },
-    beforeMount(){        
-        this.startPomodoro()
+    beforeMount(){
+        this.setTimer(this.pomodoro)
         this.start()
     }
 
@@ -65,12 +103,16 @@ export default {
 </script>
 
 <style scoped>
-.timer-pomodoro{
-    background-color: #c0392b;
-}
 
 #timer{
     color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.timer-box{
+    margin-top: 10px;
+}
+
+.button{
+    margin-top: 12px;
 }
 </style>
