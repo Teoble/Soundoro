@@ -10,7 +10,7 @@
                         <i class="fas" :class="playClass"></i>
                         </button>
         </div>
-        <div class="timer-box" v-else>
+        <div class="timer-box" v-if="time == 0 || isPaused">
             <button class="button is-rounded" @click="setTimer(pomodoro)">Start Pomodoro</button>
             <button class="button is-rounded" @click="setTimer(shortBreak)">Start Short Break</button>
             <button class="button is-rounded" @click="setTimer(longBreak)">Start Long Break</button>
@@ -25,9 +25,9 @@ export default {
         return {
             time: null,
             timer: null,
-            pomodoro:0.2,
-            shortBreak:0.1,
-            longBreak:0.05,
+            pomodoro:25,
+            shortBreak:5,
+            longBreak:15,
             isPaused: true
         }
     },
@@ -47,13 +47,16 @@ export default {
             let data = value.split(':')
             let minutes = data[0]
             let secondes = data[1]
+            let timer
             if (minutes < 10) {
                 minutes = "0"+minutes
             }
             if (secondes < 10) {
                 secondes = "0"+secondes
             }
-            return minutes+":"+secondes
+            timer = minutes+":"+secondes
+            document.title = `(${timer}) - Soundoro` 
+            return timer
         }
 	},
     methods:{
@@ -76,7 +79,6 @@ export default {
                 this.timer = setInterval( () => {                    
                     if (this.time > 0) {
                         this.time = !this.isPaused ? --this.time : this.time
-                        document.title = `(${this.$options.filters.prettify(this.runTimer())}) - Soundoro`
                     } else {
                         this.isPaused = true;
                         clearInterval(this.timer)
